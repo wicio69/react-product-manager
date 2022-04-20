@@ -1,5 +1,4 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -7,8 +6,9 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useAppDispatch, useAppSelector } from '../../util/hooks';
-import { deleteProducts } from './productSlice';
+import { useState } from 'react';
+import { useAppDispatch } from '../../util/hooks';
+import { deleteProducts } from './apiCalls';
 
 interface PopupProps {
   id: number;

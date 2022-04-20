@@ -8,7 +8,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../util/hooks';
 import { DeletePopup } from './DeletePopup';
 import { EditPopup } from './EditPopup';
@@ -18,11 +18,11 @@ import {
   tableContainer,
   searchBar,
 } from './Product.module.style';
+import { getProducts } from './apiCalls';
 import {
   selectAllProducts,
   setFilter,
   sortByColumn,
-  getProducts,
   selectStatus,
   Status,
 } from './productSlice';

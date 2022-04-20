@@ -1,7 +1,14 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../util/store';
+import { addProducts, deleteProducts, getProducts } from './apiCalls';
 
-const PRODUCT_SLICE_NAME: string = 'products';
+export enum TypePrefix {
+  BASE = 'products',
+  ADD = 'products/addProducts',
+  GET = 'products/getProducts',
+  DELETE = 'products/deleteProducts',
+  UPDATE = 'products/updateProducts',
+}
 
 export enum Status {
   LOADING = 'loading',
@@ -31,65 +38,8 @@ export const initialState: ProductsState = {
   status: Status.IDLE,
 };
 
-export const getProducts = createAsyncThunk(
-  `${PRODUCT_SLICE_NAME}/getProducts`,
-  async () => {
-    return fetch('http://hbalabkhmw.cdprojektred.com:3000/api/Products').then(
-      (res) => res.json()
-    );
-  }
-);
-
-export const addProducts = createAsyncThunk(
-  `${PRODUCT_SLICE_NAME}/addProducts`,
-  async ({ name, description, email, quantity, date }: Product) => {
-    fetch('http://hbalabkhmw.cdprojektred.com:3000/api/Products', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: name,
-        quantity: quantity,
-        date: date,
-        description: description,
-        email: email,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Success:', data);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-  }
-);
-
-export const deleteProducts = createAsyncThunk(
-  `${PRODUCT_SLICE_NAME}/deleteProducts`,
-  async (id: number) => {
-    fetch(`http://hbalabkhmw.cdprojektred.com:3000/api/Products/${id}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        id: id,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Success:', data);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-  }
-);
-
 export const productSlice = createSlice({
-  name: PRODUCT_SLICE_NAME,
+  name: TypePrefix.BASE,
   initialState: initialState,
   reducers: {
     sortByColumn: (state, action: PayloadAction<keyof Product>) => {
