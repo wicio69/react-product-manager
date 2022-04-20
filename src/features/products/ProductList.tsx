@@ -17,6 +17,7 @@ import {
   tableWrapper,
   tableContainer,
   searchBar,
+  tableHeader,
 } from './Product.module.style';
 import { getProducts } from './apiCalls';
 import {
@@ -109,6 +110,7 @@ export function ProductList() {
             <TableRow>
               {columns.map((column) => (
                 <TableCell
+                  css={tableHeader}
                   key={column.id}
                   align={column.align}
                   onClick={() => dispatch(sortByColumn(column.id))}
@@ -117,7 +119,7 @@ export function ProductList() {
                   {column.label}
                 </TableCell>
               ))}
-              <TableCell>Actions</TableCell>
+              <TableCell />
             </TableRow>
           </TableHead>
           <TableBody>

@@ -14,7 +14,7 @@ export function Header() {
           css={iconButton}
         >
           <Typography variant="h6" noWrap component="div" css={typography}>
-            Recruitment Task
+            Bartek Gościcki - Recruitment Task
           </Typography>
         </IconButton>
         <Typography

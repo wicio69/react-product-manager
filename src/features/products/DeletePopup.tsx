@@ -9,6 +9,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useState } from 'react';
 import { useAppDispatch } from '../../util/hooks';
 import { deleteProducts } from './apiCalls';
+import { deleteIcon } from './Product.module.style';
 
 interface PopupProps {
   id: number;
@@ -34,7 +35,7 @@ export function DeletePopup({ id, productName }: PopupProps) {
 
   return (
     <div>
-      <DeleteIcon onClick={handleClickOpen} />
+      <DeleteIcon onClick={handleClickOpen} css={deleteIcon} />
       <Dialog
         open={open}
         keepMounted

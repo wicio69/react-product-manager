@@ -14,6 +14,7 @@ export const tableContainer = css({
 export const searchBar = css({
   width: '100%',
   marginBottom: '10px',
+  marginLeft: '10px',
 });
 
 export const iconButton = css({
@@ -21,12 +22,35 @@ export const iconButton = css({
   color: '#2979ff',
 });
 
-export const addButton = css({
-  cursor: 'pointer',
-  color: 'black',
-});
-
 export const datePicker = css({
   width: '100%',
+  marginTop: '15px',
+});
+
+const hotpink = css({
+  color: 'hotpink',
+});
+
+export const deleteIcon = css({
+  color: '#BEBEBE',
+  cursor: 'pointer',
+  '&:hover,&:focus': hotpink,
+});
+
+export const editIcon = css({
+  color: '#1876D1',
+  cursor: 'pointer',
+  '&:hover,&:focus': hotpink,
+});
+
+export const addButton = css({
+  marginTop: '15px',
+});
+
+export const tableHeader = css({
+  fontWeight: 'bold',
+});
+
+export const formAlert = css({
   marginTop: '15px',
 });

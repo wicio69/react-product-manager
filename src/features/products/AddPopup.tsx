@@ -12,10 +12,13 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useAppDispatch } from '../../util/hooks';
 import { addProducts } from './apiCalls';
-import { datePicker } from './Product.module.style';
+import { Alert } from '@mui/material';
+import { datePicker, addButton, formAlert } from './Product.module.style';
+import { MAX_NAME_LENGTH } from '../../util/config';
+import { REGEX_EMAIL } from '../../util/regex';
 
 export function AddPopup() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   const [errorMail, setErrorMail] = useState<{ email: string }>();
   const [errorName, setErrorName] = useState<{ name: string }>();
   const [date, setDate] = useState<Date | null>(null);
@@ -23,6 +26,7 @@ export function AddPopup() {
   const [quantity, setQuantity] = useState<string>();
   const [description, setDescription] = useState<string>();
   const [name, setName] = useState<string>();
+  const [failure, setFailure] = useState<boolean>(false);
   const dispatch = useAppDispatch();
 
   const handleSubmit = () => {
@@ -35,6 +39,7 @@ export function AddPopup() {
       !errorMail &&
       !errorName
     ) {
+      setFailure(false);
       dispatch(
         addProducts({
           name: name,
@@ -45,6 +50,8 @@ export function AddPopup() {
           id: 1,
         })
       );
+    } else {
+      setFailure(true);
     }
   };
 
@@ -53,13 +60,38 @@ export function AddPopup() {
   };
 
   const handleClose = () => {
+    setFailure(false);
     setOpen(false);
+  };
+
+  const validateEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value },
+    } = event;
+    setFailure(false);
+    setErrorMail({ email: '' });
+    setEmail(value);
+    if (!value.match(REGEX_EMAIL)) {
+      setErrorMail({ email: 'Please provide a correct e-mail' });
+    }
+  };
+
+  const validateName = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value },
+    } = event;
+    setFailure(false);
+    setErrorName({ name: '' });
+    setName(value);
+    if (value.length < MAX_NAME_LENGTH) {
+      setErrorName({ name: 'Name must be at least five characters long' });
+    }
   };
 
   return (
     <div>
       <form>
-        <Button variant="contained" onClick={handleClickOpen}>
+        <Button variant="contained" onClick={handleClickOpen} css={addButton}>
           Add a new product
         </Button>
         <Dialog open={open} onClose={handleClose}>
@@ -70,23 +102,29 @@ export function AddPopup() {
               fields and hit 'Save'.
             </DialogContentText>
             <TextField
-              onChange={(e) => setName(e.target.value)}
+              onChange={validateName}
               autoFocus
               margin="dense"
               id="name"
               label="Name"
               type="text"
               fullWidth
+              error={Boolean(errorName?.name)}
+              helperText={errorName?.name}
               variant="standard"
+              required
             />
             <TextField
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={validateEmail}
               margin="dense"
               id="email"
               label="Email Address"
               type="email"
               fullWidth
+              error={Boolean(errorMail?.email)}
+              helperText={errorMail?.email}
               variant="standard"
+              required
             />
             <TextField
               onChange={(e) => setDescription(e.target.value)}
@@ -96,6 +134,7 @@ export function AddPopup() {
               type="email"
               fullWidth
               variant="standard"
+              required
             />
             <TextField
               onChange={(e) => setQuantity(e.target.value)}
@@ -105,6 +144,7 @@ export function AddPopup() {
               type="number"
               fullWidth
               variant="standard"
+              required
             />
             <LocalizationProvider css={datePicker} dateAdapter={AdapterMoment}>
               <div css={datePicker}>
@@ -118,6 +158,12 @@ export function AddPopup() {
                 />
               </div>
             </LocalizationProvider>
+            {failure && (
+              <Alert css={formAlert} severity="error">
+                All fields are required. Name must be at least five characters
+                long. Email address must have a correct format.
+              </Alert>
+            )}
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>

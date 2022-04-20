@@ -14,6 +14,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { datePicker } from './Product.module.style';
 import { Product } from './productSlice';
+import { editIcon } from './Product.module.style';
 
 export function EditPopup({
   id,
@@ -23,12 +24,12 @@ export function EditPopup({
   email,
   date,
 }: Product) {
-  const [open, setOpen] = useState(false);
-  const [inputEmail, setEmail] = useState<string>();
-  const [inputQuantity, setQuantity] = useState<string>();
-  const [inputDescription, setDescription] = useState<string>();
-  const [inputName, setName] = useState<string>();
-  const [inputDate, setDate] = useState<Date | null>(null);
+  const [open, setOpen] = useState<boolean>(false);
+  const [inputEmail, setEmail] = useState<string>(email);
+  const [inputQuantity, setQuantity] = useState<string>(quantity.toString());
+  const [inputDescription, setDescription] = useState<string>(description);
+  const [inputName, setName] = useState<string>(name);
+  const [inputDate, setDate] = useState<Date | null>(date);
   const [errorMail, setErrorMail] = useState<{ email: string }>();
   const [errorName, setErrorName] = useState<{ name: string }>();
 
@@ -64,7 +65,7 @@ export function EditPopup({
 
   return (
     <div>
-      <EditIcon onClick={handleClickOpen} color={'primary'} />
+      <EditIcon onClick={handleClickOpen} css={editIcon} />
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Edit product details</DialogTitle>
         <DialogContent>
@@ -74,7 +75,7 @@ export function EditPopup({
           </DialogContentText>
           <TextField
             autoFocus
-            value={name}
+            value={inputName}
             margin="dense"
             id="name"
             label="Name"
@@ -86,7 +87,7 @@ export function EditPopup({
             onChange={validateName}
           />
           <TextField
-            value={email}
+            value={inputEmail}
             margin="dense"
             id="email"
             label="Email Address"
@@ -98,7 +99,8 @@ export function EditPopup({
             onChange={validateEmail}
           />
           <TextField
-            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            value={inputDescription}
             margin="dense"
             id="description"
             label="Description"
@@ -107,7 +109,8 @@ export function EditPopup({
             variant="standard"
           />
           <TextField
-            value={quantity}
+            onChange={(e) => setQuantity(e.target.value)}
+            value={inputQuantity}
             margin="dense"
             id="quantity"
             label="Quantity"
@@ -119,7 +122,7 @@ export function EditPopup({
             <div css={datePicker}>
               <DatePicker
                 label="Date"
-                value={date}
+                value={inputDate}
                 onChange={(newValue) => {
                   setDate(newValue);
                 }}
