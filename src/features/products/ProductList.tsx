@@ -10,6 +10,8 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { DeletePopup } from './DeletePopup';
+import EditIcon from '@mui/icons-material/Edit';
 import {
   tableWrapper,
   tableContainer,
@@ -113,6 +115,7 @@ export function ProductList() {
                   {column.label}
                 </TableCell>
               ))}
+              <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -127,7 +130,10 @@ export function ProductList() {
                     key={product.quantity}
                   >
                     {columns.map((column) => {
-                      const value = product[column.id];
+                      var value = product[column.id].toString();
+                      if (column.id == 'date') {
+                        value = value.substring(0, 10);
+                      }
                       return (
                         <TableCell key={column.id} align={column.align}>
                           {column.format && typeof value === 'number'
@@ -136,6 +142,10 @@ export function ProductList() {
                         </TableCell>
                       );
                     })}
+                    <TableCell>
+                      <DeletePopup id={product.id} productName={product.name} />
+                      <EditIcon />
+                    </TableCell>
                   </TableRow>
                 );
               })}

@@ -1,15 +1,9 @@
 import { css } from '@emotion/react';
 
-export const tableWrapper = css({
-  width: '100%',
-  overflow: 'hidden',
+export const iconButton = css({
+  marginRight: 2,
 });
 
-export const tableContainer = css({
-  maxHeight: '550px',
-});
-
-export const searchBar = css({
-  width: '85%',
-  marginBottom: '10px',
+export const typography = css({
+  flexGrow: 1,
 });

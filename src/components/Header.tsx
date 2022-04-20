@@ -1,4 +1,6 @@
+/** @jsxImportSource @emotion/react */
 import { AppBar, Toolbar, IconButton, Typography } from '@mui/material';
+import { typography, iconButton } from './Header.module.style';
 
 export function Header() {
   return (
@@ -9,14 +11,9 @@ export function Header() {
           edge="start"
           color="inherit"
           aria-label="menu"
-          sx={{ mr: 2 }}
+          css={iconButton}
         >
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-          >
+          <Typography variant="h6" noWrap component="div" css={typography}>
             Recruitment Task
           </Typography>
         </IconButton>
