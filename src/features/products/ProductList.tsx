@@ -71,6 +71,7 @@ export function ProductList() {
   const dispatch = useAppDispatch();
   const products = useAppSelector(selectAllProducts);
   const productsStatus = useAppSelector(selectStatus);
+  const DEFAULT_PAGE: number = 0;
 
   const handleChangePage = (_event: unknown, newPage: number) => {
     setPage(newPage);
@@ -84,7 +85,7 @@ export function ProductList() {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setRowsPerPage(+event.target.value);
-    setPage(0);
+    setPage(DEFAULT_PAGE);
   };
 
   return (
@@ -142,7 +143,7 @@ export function ProductList() {
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
+        rowsPerPageOptions={[10, 15, 30]}
         component="div"
         count={products.length}
         rowsPerPage={rowsPerPage}
