@@ -11,7 +11,7 @@ import TableRow from '@mui/material/TableRow';
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { DeletePopup } from './DeletePopup';
-import EditIcon from '@mui/icons-material/Edit';
+import { EditPopup } from './EditPopup';
 import {
   tableWrapper,
   tableContainer,
@@ -144,7 +144,7 @@ export function ProductList() {
                     })}
                     <TableCell>
                       <DeletePopup id={product.id} productName={product.name} />
-                      <EditIcon />
+                      <EditPopup />
                     </TableCell>
                   </TableRow>
                 );
