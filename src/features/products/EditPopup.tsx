@@ -11,6 +11,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { REGEX_EMAIL } from '../../util/regex';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -38,15 +39,12 @@ export function EditPopup() {
   };
 
   const validateEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setErrorMail({ email: ' ' });
     const {
       target: { value },
     } = event;
-    if (
-      value.match(
-        /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      )
-    ) {
+    setErrorMail({ email: '' });
+    setEmail(value);
+    if (!value.match(REGEX_EMAIL)) {
       setErrorMail({ email: 'Please provide a correct e-mail' });
     }
   };
@@ -55,7 +53,7 @@ export function EditPopup() {
     const {
       target: { value },
     } = event;
-    setErrorName({ name: ' ' });
+    setErrorName({ name: '' });
     setName(value);
     if (value.length < 6) {
       setErrorName({ name: 'Name must be at least five characters long' });
@@ -116,7 +114,7 @@ export function EditPopup() {
           />
           <LocalizationProvider dateAdapter={AdapterMoment}>
             <DatePicker
-              label="Basic example"
+              label="Date"
               value={value}
               onChange={(newValue) => {
                 setValue(newValue);
