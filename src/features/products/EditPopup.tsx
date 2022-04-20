@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+/** @jsxImportSource @emotion/react */
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -7,20 +7,30 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import EditIcon from '@mui/icons-material/Edit';
+import { useState } from 'react';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { REGEX_EMAIL } from '../../util/regex';
-import { SelectChangeEvent } from '@mui/material/Select';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { datePicker } from './Product.module.style';
+import { Product } from './productSlice';
 
-export function EditPopup() {
+export function EditPopup({
+  id,
+  description,
+  quantity,
+  name,
+  email,
+  date,
+}: Product) {
   const [open, setOpen] = useState(false);
-  const [age, setAge] = useState('');
-  const [value, setValue] = useState<Date | null>(null);
+  const [inputEmail, setEmail] = useState<string>();
+  const [inputQuantity, setQuantity] = useState<string>();
+  const [inputDescription, setDescription] = useState<string>();
+  const [inputName, setName] = useState<string>();
+  const [inputDate, setDate] = useState<Date | null>(null);
   const [errorMail, setErrorMail] = useState<{ email: string }>();
   const [errorName, setErrorName] = useState<{ name: string }>();
-  const [email, setEmail] = useState<string>();
-  const [name, setName] = useState<string>();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -28,10 +38,6 @@ export function EditPopup() {
 
   const handleClose = () => {
     setOpen(false);
-  };
-
-  const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value as string);
   };
 
   const validateEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,6 +74,7 @@ export function EditPopup() {
           </DialogContentText>
           <TextField
             autoFocus
+            value={name}
             margin="dense"
             id="name"
             label="Name"
@@ -79,7 +86,7 @@ export function EditPopup() {
             onChange={validateName}
           />
           <TextField
-            autoFocus
+            value={email}
             margin="dense"
             id="email"
             label="Email Address"
@@ -91,7 +98,7 @@ export function EditPopup() {
             onChange={validateEmail}
           />
           <TextField
-            autoFocus
+            value={description}
             margin="dense"
             id="description"
             label="Description"
@@ -100,7 +107,7 @@ export function EditPopup() {
             variant="standard"
           />
           <TextField
-            autoFocus
+            value={quantity}
             margin="dense"
             id="quantity"
             label="Quantity"
@@ -109,14 +116,16 @@ export function EditPopup() {
             variant="standard"
           />
           <LocalizationProvider dateAdapter={AdapterMoment}>
-            <DatePicker
-              label="Date"
-              value={value}
-              onChange={(newValue) => {
-                setValue(newValue);
-              }}
-              renderInput={(params) => <TextField {...params} />}
-            />
+            <div css={datePicker}>
+              <DatePicker
+                label="Date"
+                value={date}
+                onChange={(newValue) => {
+                  setDate(newValue);
+                }}
+                renderInput={(params) => <TextField fullWidth {...params} />}
+              />
+            </div>
           </LocalizationProvider>
         </DialogContent>
         <DialogActions>

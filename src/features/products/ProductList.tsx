@@ -146,7 +146,14 @@ export function ProductList() {
                     })}
                     <TableCell>
                       <DeletePopup id={product.id} productName={product.name} />
-                      <EditPopup />
+                      <EditPopup
+                        id={product.id}
+                        name={product.name}
+                        description={product.description}
+                        quantity={product.quantity}
+                        email={product.email}
+                        date={product.date}
+                      />
                     </TableCell>
                   </TableRow>
                 );

@@ -16,18 +16,16 @@ import { datePicker } from './Product.module.style';
 
 export function AddPopup() {
   const [open, setOpen] = useState(false);
-  const [date, setDate] = useState<Date | null>(null);
   const [errorMail, setErrorMail] = useState<{ email: string }>();
   const [errorName, setErrorName] = useState<{ name: string }>();
+  const [date, setDate] = useState<Date | null>(null);
   const [email, setEmail] = useState<string>();
   const [quantity, setQuantity] = useState<string>();
   const [description, setDescription] = useState<string>();
-
   const [name, setName] = useState<string>();
   const dispatch = useAppDispatch();
 
   const handleSubmit = () => {
-    console.log(name, date, description, quantity, email);
     if (
       name &&
       date &&
