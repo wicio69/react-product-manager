@@ -7,6 +7,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { deleteProducts } from './productSlice';
 
 interface PopupProps {
   id: number;
@@ -14,6 +16,12 @@ interface PopupProps {
 }
 
 export function DeletePopup({ id, productName }: PopupProps) {
+  const dispatch = useAppDispatch();
+
+  const handleDelete = () => {
+    dispatch(deleteProducts(id));
+  };
+
   const [open, setOpen] = useState<boolean>(false);
 
   const handleClickOpen = () => {
@@ -23,8 +31,6 @@ export function DeletePopup({ id, productName }: PopupProps) {
   const handleClose = () => {
     setOpen(false);
   };
-
-  const handleDelete = () => {};
 
   return (
     <div>

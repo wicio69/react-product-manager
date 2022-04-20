@@ -14,7 +14,9 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { iconButton } from './Product.module.style';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { addProducts } from './productSlice';
 
 export function AddPopup() {
   const [open, setOpen] = useState(false);
@@ -23,7 +25,24 @@ export function AddPopup() {
   const [errorMail, setErrorMail] = useState<{ email: string }>();
   const [errorName, setErrorName] = useState<{ name: string }>();
   const [email, setEmail] = useState<string>();
+  const [quantity, setQuantity] = useState<number>();
+  const [description, setDescription] = useState<string>();
+  const [date, setDate] = useState<Date>();
   const [name, setName] = useState<string>();
+  const dispatch = useAppDispatch();
+
+  const handleSend = () => {
+    dispatch(
+      addProducts({
+        name: 'Johnson',
+        email: 'test@johnsona.test',
+        quantity: 1500,
+        description: 'witam wszystkich tu zgromadzonych',
+        date: new Date(),
+        id: 1,
+      })
+    );
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -41,6 +60,14 @@ export function AddPopup() {
     <div>
       <Button variant="contained" onClick={handleClickOpen}>
         Add a new product
+      </Button>
+      <Button
+        variant="contained"
+        onClick={() => {
+          handleSend();
+        }}
+      >
+        Send
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Add a new product</DialogTitle>
@@ -76,20 +103,15 @@ export function AddPopup() {
             fullWidth
             variant="standard"
           />
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Quantity</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={age}
-              label="Quantity"
-              onChange={handleChange}
-            >
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
-            </Select>
-          </FormControl>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="quantity"
+            label="Quantity"
+            type="number"
+            fullWidth
+            variant="standard"
+          />
           <LocalizationProvider dateAdapter={AdapterMoment}>
             <DatePicker
               label="Basic example"

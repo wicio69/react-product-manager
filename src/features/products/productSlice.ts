@@ -40,6 +40,54 @@ export const getProducts = createAsyncThunk(
   }
 );
 
+export const addProducts = createAsyncThunk(
+  `${PRODUCT_SLICE_NAME}/addProducts`,
+  async ({ name, description, email, quantity, date }: Product) => {
+    fetch('http://hbalabkhmw.cdprojektred.com:3000/api/Products', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: name,
+        quantity: quantity,
+        date: date,
+        description: description,
+        email: email,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Success:', data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
+);
+
+export const deleteProducts = createAsyncThunk(
+  `${PRODUCT_SLICE_NAME}/deleteProducts`,
+  async (id: number) => {
+    fetch(`http://hbalabkhmw.cdprojektred.com:3000/api/Products/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: id,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Success:', data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
+);
+
 export const productSlice = createSlice({
   name: PRODUCT_SLICE_NAME,
   initialState: initialState,
@@ -65,11 +113,27 @@ export const productSlice = createSlice({
       })
       .addCase(getProducts.rejected, (state) => {
         state.status = Status.ERROR;
+      })
+      .addCase(addProducts.pending, (state) => {
+        state.status = Status.LOADING;
+      })
+      .addCase(addProducts.rejected, (state) => {
+        state.status = Status.ERROR;
+      })
+      .addCase(addProducts.fulfilled, (state) => {
+        state.status = Status.SUCCEEDED;
+      })
+      .addCase(deleteProducts.pending, (state) => {
+        state.status = Status.LOADING;
+      })
+      .addCase(deleteProducts.rejected, (state) => {
+        state.status = Status.ERROR;
+      })
+      .addCase(deleteProducts.fulfilled, (state) => {
+        state.status = Status.SUCCEEDED;
       });
   },
 });
-
-export const { sortByColumn, setFilter } = productSlice.actions;
 
 export const selectStatus = (state: RootState) => state.product.status;
 export const selectFilter = (state: RootState) => state.product.filter;
@@ -78,5 +142,7 @@ export const selectAllProducts = (state: RootState) => {
     return product.name.trim().toLowerCase().includes(state.product.filter);
   });
 };
+
+export const { sortByColumn, setFilter } = productSlice.actions;
 
 export default productSlice.reducer;

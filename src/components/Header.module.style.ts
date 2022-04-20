@@ -5,5 +5,5 @@ export const iconButton = css({
 });
 
 export const typography = css({
-  flexGrow: 1,
+  flexGrow: '1',
 });

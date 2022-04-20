@@ -105,20 +105,15 @@ export function EditPopup() {
             fullWidth
             variant="standard"
           />
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Quantity</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={age}
-              label="Quantity"
-              onChange={handleChange}
-            >
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
-            </Select>
-          </FormControl>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="quantity"
+            label="Quantity"
+            type="number"
+            fullWidth
+            variant="standard"
+          />
           <LocalizationProvider dateAdapter={AdapterMoment}>
             <DatePicker
               label="Basic example"
