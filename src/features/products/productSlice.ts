@@ -139,7 +139,10 @@ export const selectStatus = (state: RootState) => state.product.status;
 export const selectFilter = (state: RootState) => state.product.filter;
 export const selectAllProducts = (state: RootState) => {
   return state.product.products.filter((product) => {
-    return product.name.trim().toLowerCase().includes(state.product.filter);
+    return product.name
+      .trim()
+      .toLowerCase()
+      .includes(state.product.filter.toLowerCase());
   });
 };
 

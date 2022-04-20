@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+/** @jsxImportSource @emotion/react */
+import { useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -11,6 +12,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useAppDispatch } from '../../util/hooks';
 import { addProducts } from './productSlice';
+import { datePicker } from './Product.module.style';
 
 export function AddPopup() {
   const [open, setOpen] = useState(false);
@@ -106,15 +108,17 @@ export function AddPopup() {
               fullWidth
               variant="standard"
             />
-            <LocalizationProvider dateAdapter={AdapterMoment}>
-              <DatePicker
-                label="Date"
-                value={date}
-                onChange={(newValue) => {
-                  setDate(newValue);
-                }}
-                renderInput={(params) => <TextField {...params} />}
-              />
+            <LocalizationProvider css={datePicker} dateAdapter={AdapterMoment}>
+              <div css={datePicker}>
+                <DatePicker
+                  label="Date"
+                  value={date}
+                  onChange={(newValue) => {
+                    setDate(newValue);
+                  }}
+                  renderInput={(params) => <TextField fullWidth {...params} />}
+                />
+              </div>
             </LocalizationProvider>
           </DialogContent>
           <DialogActions>
