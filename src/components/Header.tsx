@@ -17,6 +17,12 @@ export function Header() {
             Recruitment Task
           </Typography>
         </IconButton>
+        <Typography
+          variant="h6"
+          noWrap
+          component="div"
+          css={typography}
+        ></Typography>
       </Toolbar>
     </AppBar>
   );

@@ -10,6 +10,16 @@ export const tableContainer = css({
 });
 
 export const searchBar = css({
-  width: '85%',
+  width: '100%',
   marginBottom: '10px',
+});
+
+export const iconButton = css({
+  cursor: 'pointer',
+  color: '#2979ff',
+});
+
+export const addButton = css({
+  cursor: 'pointer',
+  color: 'black',
 });

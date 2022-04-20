@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
+import Button from '@mui/material/Button';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -11,9 +12,12 @@ import TableRow from '@mui/material/TableRow';
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { DeletePopup } from './DeletePopup';
+import AddIcon from '@mui/icons-material/Add';
 import { EditPopup } from './EditPopup';
+import { AddPopup } from './AddPopup';
 import {
   tableWrapper,
+  addButton,
   tableContainer,
   searchBar,
 } from './Product.module.style';
@@ -92,6 +96,7 @@ export function ProductList() {
 
   return (
     <Paper css={tableWrapper}>
+      <AddPopup />
       <TextField
         id="searchByProductName"
         label="Search products by name..."

@@ -16,7 +16,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { iconButton } from './Product.module.style';
 
-export function EditPopup() {
+export function AddPopup() {
   const [open, setOpen] = useState(false);
   const [age, setAge] = useState('');
   const [value, setValue] = useState<Date | null>(null);
@@ -37,40 +37,17 @@ export function EditPopup() {
     setAge(event.target.value as string);
   };
 
-  const validateEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setErrorMail({ email: ' ' });
-    const {
-      target: { value },
-    } = event;
-    if (
-      value.match(
-        /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      )
-    ) {
-      setErrorMail({ email: 'Please provide a correct e-mail' });
-    }
-  };
-
-  const validateName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const {
-      target: { value },
-    } = event;
-    setErrorName({ name: ' ' });
-    setName(value);
-    if (value.length < 6) {
-      setErrorName({ name: 'Name must be at least five characters long' });
-    }
-  };
-
   return (
     <div>
-      <EditIcon onClick={handleClickOpen} color={'primary'} />
+      <Button variant="contained" onClick={handleClickOpen}>
+        Add a new product
+      </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Edit product details</DialogTitle>
+        <DialogTitle>Add a new product</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            In order to edit the product, make all the necessary changes in the
-            form and hit 'Save'.
+            In order to add a new product, fill out all the necessary fields and
+            hit 'Save'.
           </DialogContentText>
           <TextField
             autoFocus
@@ -80,9 +57,6 @@ export function EditPopup() {
             type="text"
             fullWidth
             variant="standard"
-            error={Boolean(errorName?.name)}
-            helperText={errorName?.name}
-            onChange={validateName}
           />
           <TextField
             autoFocus
@@ -92,9 +66,6 @@ export function EditPopup() {
             type="email"
             fullWidth
             variant="standard"
-            error={Boolean(errorMail?.email)}
-            helperText={errorMail?.email}
-            onChange={validateEmail}
           />
           <TextField
             autoFocus
