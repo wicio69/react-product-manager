@@ -62,6 +62,9 @@ export const productSlice = createSlice({
     cancelUploaded: (state) => {
       state.isUploaded = false;
     },
+    cancelRepeated: (state) => {
+      state.isRepeated = false;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -99,6 +102,7 @@ export const productSlice = createSlice({
         state.status = Status.LOADING;
       })
       .addCase(updateProducts.rejected, (state) => {
+        state.isRepeated = true;
         state.status = Status.ERROR;
       })
       .addCase(updateProducts.fulfilled, (state) => {
@@ -124,10 +128,10 @@ export const selectAllProducts = (state: RootState) => {
   if (state.product.sortColumn === undefined) {
     return filtered;
   }
-
   return filtered.sort(sortByKey(state.product.sortColumn));
 };
 
-export const { sortByColumn, setFilter, cancelUploaded } = productSlice.actions;
+export const { sortByColumn, setFilter, cancelUploaded, cancelRepeated } =
+  productSlice.actions;
 
 export default productSlice.reducer;

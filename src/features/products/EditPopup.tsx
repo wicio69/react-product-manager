@@ -15,8 +15,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { Alert } from '@mui/material';
 import { datePicker } from './Product.module.style';
-import { Product } from './productSlice';
-import { useAppDispatch } from '../../util/hooks';
+import { cancelRepeated, Product, selectIsRepeated } from './productSlice';
+import { useAppDispatch, useAppSelector } from '../../util/hooks';
 import { editIcon, formAlert } from './Product.module.style';
 import { updateProducts, getProducts } from './apiCalls';
 
@@ -37,6 +37,7 @@ export function EditPopup({
   const [errorMail, setErrorMail] = useState<{ email: string }>();
   const [errorName, setErrorName] = useState<{ name: string }>();
   const [failure, setFailure] = useState<boolean>(false);
+  const isRepeated = useAppSelector(selectIsRepeated);
   const dispatch = useAppDispatch();
 
   const handleClickOpen = () => {
@@ -45,6 +46,7 @@ export function EditPopup({
 
   const handleClose = () => {
     setOpen(false);
+    dispatch(cancelRepeated());
   };
 
   const handleSubmit = () => {
@@ -69,7 +71,9 @@ export function EditPopup({
         })
       );
       dispatch(getProducts());
-      setOpen(false);
+      if (isRepeated) {
+        handleClose();
+      }
     } else {
       setFailure(true);
     }
@@ -168,6 +172,11 @@ export function EditPopup({
             <Alert css={formAlert} severity="error">
               All fields are required. Name must be at least five characters
               long. Email address must have a correct format.
+            </Alert>
+          )}
+          {isRepeated && (
+            <Alert css={formAlert} severity="error">
+              This name is already taken.
             </Alert>
           )}
         </DialogContent>
