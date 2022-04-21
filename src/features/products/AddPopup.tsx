@@ -187,9 +187,15 @@ export function AddPopup() {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
-            <Button type="submit" onClick={handleSubmit}>
-              Save
-            </Button>
+            {isUploaded ? (
+              <Button type="submit" disabled onClick={handleSubmit}>
+                Save
+              </Button>
+            ) : (
+              <Button type="submit" onClick={handleSubmit}>
+                Save
+              </Button>
+            )}
           </DialogActions>
         </Dialog>
       </form>
