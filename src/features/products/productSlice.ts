@@ -127,16 +127,6 @@ export const selectAllProducts = (state: RootState) => {
 
   return filtered.sort(sortByKey(state.product.sortColumn));
 };
-// export const selectSortedProducts = (state: RootState) => {
-//   const sortByKey = (key: keyof Product) => (a: Product, b: Product) =>
-//     a[key] > b[key] ? 1 : -1;
-//   if (state.product.sortColumn === undefined) {
-//     return state.product.products;
-//   }
-//   return state.product.products
-//     .slice()
-//     .sort(sortByKey(state.product.sortColumn));
-// };
 
 export const { sortByColumn, setFilter, cancelUploaded } = productSlice.actions;
 
