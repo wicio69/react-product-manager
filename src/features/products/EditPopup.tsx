@@ -13,10 +13,11 @@ import { REGEX_EMAIL } from '../../util/regex';
 import { MAX_NAME_LENGTH } from '../../util/config';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { Alert } from '@mui/material';
 import { datePicker } from './Product.module.style';
 import { Product } from './productSlice';
 import { useAppDispatch } from '../../util/hooks';
-import { editIcon } from './Product.module.style';
+import { editIcon, formAlert } from './Product.module.style';
 import { updateProducts } from './apiCalls';
 
 export function EditPopup({
@@ -48,11 +49,11 @@ export function EditPopup({
 
   const handleSubmit = () => {
     if (
-      name &&
-      date &&
-      description &&
-      quantity &&
-      email &&
+      inputName &&
+      inputDate &&
+      inputDescription &&
+      inputQuantity &&
+      inputEmail &&
       !errorMail?.email &&
       !errorName?.name
     ) {
@@ -63,7 +64,7 @@ export function EditPopup({
           email: inputEmail,
           quantity: parseInt(inputQuantity),
           description: inputDescription,
-          date: date,
+          date: inputDate,
           id: id,
         })
       );
@@ -162,6 +163,12 @@ export function EditPopup({
               />
             </div>
           </LocalizationProvider>
+          {failure && (
+            <Alert css={formAlert} severity="error">
+              All fields are required. Name must be at least five characters
+              long. Email address must have a correct format.
+            </Alert>
+          )}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
