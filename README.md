@@ -1,4 +1,4 @@
-## Available Scripts
+## How do I run this thing?
 
 To run the project please run clone the repository to your local machine and run:
 
