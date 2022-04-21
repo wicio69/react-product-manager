@@ -67,6 +67,7 @@ export function EditPopup({
           id: id,
         })
       );
+      setOpen(false);
     } else {
       setFailure(true);
     }
