@@ -18,7 +18,7 @@ import { datePicker } from './Product.module.style';
 import { Product } from './productSlice';
 import { useAppDispatch } from '../../util/hooks';
 import { editIcon, formAlert } from './Product.module.style';
-import { updateProducts } from './apiCalls';
+import { updateProducts, getProducts } from './apiCalls';
 
 export function EditPopup({
   id,
@@ -68,6 +68,7 @@ export function EditPopup({
           id: id,
         })
       );
+      dispatch(getProducts());
       setOpen(false);
     } else {
       setFailure(true);
