@@ -59,10 +59,10 @@ export function EditPopup({
       setFailure(false);
       dispatch(
         updateProducts({
-          name: name,
-          email: email,
-          quantity: quantity,
-          description: description,
+          name: inputName,
+          email: inputEmail,
+          quantity: parseInt(inputQuantity),
+          description: inputDescription,
           date: date,
           id: id,
         })

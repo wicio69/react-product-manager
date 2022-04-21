@@ -102,7 +102,7 @@ export const productSlice = createSlice({
       .addCase(updateProducts.rejected, (state) => {
         state.status = Status.ERROR;
       })
-      .addCase(updateProducts.fulfilled, (state) => {
+      .addCase(updateProducts.fulfilled, (state, action) => {
         state.status = Status.SUCCEEDED;
       });
   },
