@@ -10,11 +10,14 @@ import EditIcon from '@mui/icons-material/Edit';
 import { useState } from 'react';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { REGEX_EMAIL } from '../../util/regex';
+import { MAX_NAME_LENGTH } from '../../util/config';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { datePicker } from './Product.module.style';
 import { Product } from './productSlice';
+import { useAppDispatch } from '../../util/hooks';
 import { editIcon } from './Product.module.style';
+import { updateProducts } from './apiCalls';
 
 export function EditPopup({
   id,
@@ -32,6 +35,8 @@ export function EditPopup({
   const [inputDate, setDate] = useState<Date | null>(date);
   const [errorMail, setErrorMail] = useState<{ email: string }>();
   const [errorName, setErrorName] = useState<{ name: string }>();
+  const [failure, setFailure] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -39,6 +44,32 @@ export function EditPopup({
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleSubmit = () => {
+    if (
+      name &&
+      date &&
+      description &&
+      quantity &&
+      email &&
+      !errorMail?.email &&
+      !errorName?.name
+    ) {
+      setFailure(false);
+      dispatch(
+        updateProducts({
+          name: name,
+          email: email,
+          quantity: quantity,
+          description: description,
+          date: date,
+          id: id,
+        })
+      );
+    } else {
+      setFailure(true);
+    }
   };
 
   const validateEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,7 +89,7 @@ export function EditPopup({
     } = event;
     setErrorName({ name: '' });
     setName(value);
-    if (value.length < 6) {
+    if (value.length < MAX_NAME_LENGTH) {
       setErrorName({ name: 'Name must be at least five characters long' });
     }
   };
@@ -133,7 +164,7 @@ export function EditPopup({
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Save</Button>
+          <Button onClick={handleSubmit}>Save</Button>
         </DialogActions>
       </Dialog>
     </div>

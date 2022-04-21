@@ -1,6 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../util/store';
-import { addProducts, deleteProducts, getProducts } from './apiCalls';
+import {
+  addProducts,
+  deleteProducts,
+  getProducts,
+  updateProducts,
+} from './apiCalls';
 
 export enum TypePrefix {
   BASE = 'products',
@@ -89,6 +94,15 @@ export const productSlice = createSlice({
         state.status = Status.ERROR;
       })
       .addCase(deleteProducts.fulfilled, (state) => {
+        state.status = Status.SUCCEEDED;
+      })
+      .addCase(updateProducts.pending, (state) => {
+        state.status = Status.LOADING;
+      })
+      .addCase(updateProducts.rejected, (state) => {
+        state.status = Status.ERROR;
+      })
+      .addCase(updateProducts.fulfilled, (state) => {
         state.status = Status.SUCCEEDED;
       });
   },

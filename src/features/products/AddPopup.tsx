@@ -37,7 +37,6 @@ export function AddPopup() {
   const isUploaded = useAppSelector(selectIsUploaded);
 
   const handleSubmit = () => {
-    console.log(isRepeated);
     if (
       name &&
       date &&

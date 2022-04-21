@@ -13,10 +13,6 @@ export const tableWrapper = css({
   minHeight: '100vh',
 });
 
-export const tableContainer = css({
-  maxHeight: '1000px',
-});
-
 export const searchBar = css({
   width: '100%',
   marginBottom: '10px',

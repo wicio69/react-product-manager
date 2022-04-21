@@ -13,12 +13,7 @@ import { useAppDispatch, useAppSelector } from '../../util/hooks';
 import { DeletePopup } from './DeletePopup';
 import { EditPopup } from './EditPopup';
 import { AddPopup } from './AddPopup';
-import {
-  tableWrapper,
-  tableContainer,
-  searchBar,
-  tableHeader,
-} from './Product.module.style';
+import { tableWrapper, searchBar, tableHeader } from './Product.module.style';
 import { getProducts } from './apiCalls';
 import {
   selectAllProducts,
@@ -104,7 +99,7 @@ export function ProductList() {
         variant="standard"
         css={searchBar}
       />
-      <TableContainer css={tableContainer}>
+      <TableContainer>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>

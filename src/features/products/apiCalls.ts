@@ -17,8 +17,36 @@ export const getProducts = createAsyncThunk(TypePrefix.GET, async () => {
 export const addProducts = createAsyncThunk(
   TypePrefix.ADD,
   async ({ name, description, email, quantity, date }: Product) => {
-    await fetch(API_BASE_URL, {
+    await fetch(`API_BASE_URL`, {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: name,
+        quantity: quantity,
+        date: date,
+        description: description,
+        email: email,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error();
+        }
+        return response;
+      })
+      .then((data) => {
+        console.log('Success:', data);
+      });
+  }
+);
+
+export const updateProducts = createAsyncThunk(
+  TypePrefix.UPDATE,
+  async ({ name, description, email, quantity, date, id }: Product) => {
+    await fetch(`${API_BASE_URL}/${id}`, {
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
