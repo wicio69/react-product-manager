@@ -10,12 +10,17 @@ import { useState } from 'react';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { useAppDispatch } from '../../util/hooks';
+import { useAppDispatch, useAppSelector } from '../../util/hooks';
 import { addProducts } from './apiCalls';
 import { Alert } from '@mui/material';
 import { datePicker, addButton, formAlert } from './Product.module.style';
-import { MAX_NAME_LENGTH } from '../../util/config';
+import { MAX_NAME_LENGTH, BASE_ID } from '../../util/config';
 import { REGEX_EMAIL } from '../../util/regex';
+import {
+  selectIsRepeated,
+  selectIsUploaded,
+  cancelUploaded,
+} from './productSlice';
 
 export function AddPopup() {
   const [open, setOpen] = useState<boolean>(false);
@@ -28,16 +33,19 @@ export function AddPopup() {
   const [name, setName] = useState<string>();
   const [failure, setFailure] = useState<boolean>(false);
   const dispatch = useAppDispatch();
+  const isRepeated = useAppSelector(selectIsRepeated);
+  const isUploaded = useAppSelector(selectIsUploaded);
 
   const handleSubmit = () => {
+    console.log(isRepeated);
     if (
       name &&
       date &&
       description &&
       quantity &&
       email &&
-      !errorMail &&
-      !errorName
+      !errorMail?.email &&
+      !errorName?.name
     ) {
       setFailure(false);
       dispatch(
@@ -47,7 +55,7 @@ export function AddPopup() {
           quantity: parseInt(quantity),
           description: description,
           date: date,
-          id: 1,
+          id: BASE_ID,
         })
       );
     } else {
@@ -62,6 +70,7 @@ export function AddPopup() {
   const handleClose = () => {
     setFailure(false);
     setOpen(false);
+    dispatch(cancelUploaded());
   };
 
   const validateEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -162,6 +171,16 @@ export function AddPopup() {
               <Alert css={formAlert} severity="error">
                 All fields are required. Name must be at least five characters
                 long. Email address must have a correct format.
+              </Alert>
+            )}
+            {isRepeated && (
+              <Alert css={formAlert} severity="error">
+                This name is already taken.
+              </Alert>
+            )}
+            {isUploaded && (
+              <Alert css={formAlert} severity="success">
+                The product has been added.
               </Alert>
             )}
           </DialogContent>

@@ -1,14 +1,20 @@
 import { css } from '@emotion/react';
 
+const primary = css({ color: '#1876D1' });
+
+const hotpink = css({
+  color: 'hotpink',
+});
+
 export const tableWrapper = css({
   marginTop: '100px',
-  width: '100%',
+  width: '92%',
   overflow: 'hidden',
   minHeight: '100vh',
 });
 
 export const tableContainer = css({
-  maxHeight: '550px',
+  maxHeight: '1000px',
 });
 
 export const searchBar = css({
@@ -27,12 +33,8 @@ export const datePicker = css({
   marginTop: '15px',
 });
 
-const hotpink = css({
-  color: 'hotpink',
-});
-
 export const deleteIcon = css({
-  color: '#BEBEBE',
+  color: '#1876D1',
   cursor: 'pointer',
   '&:hover,&:focus': hotpink,
 });
@@ -49,6 +51,8 @@ export const addButton = css({
 
 export const tableHeader = css({
   fontWeight: 'bold',
+  cursor: 'pointer',
+  '&:hover,&:focus': primary,
 });
 
 export const formAlert = css({

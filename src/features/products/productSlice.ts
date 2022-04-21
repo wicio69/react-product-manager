@@ -21,6 +21,8 @@ export interface ProductsState {
   products: Product[];
   filter: string;
   status: Status.LOADING | Status.ERROR | Status.IDLE | Status.SUCCEEDED;
+  isRepeated: boolean;
+  isUploaded: boolean;
 }
 
 export interface Product {
@@ -36,6 +38,8 @@ export const initialState: ProductsState = {
   products: [],
   filter: '',
   status: Status.IDLE,
+  isRepeated: false,
+  isUploaded: false,
 };
 
 export const productSlice = createSlice({
@@ -50,6 +54,9 @@ export const productSlice = createSlice({
     },
     setFilter: (state, action) => {
       state.filter = action.payload;
+    },
+    cancelUploaded: (state) => {
+      state.isUploaded = false;
     },
   },
   extraReducers: (builder) => {
@@ -68,9 +75,11 @@ export const productSlice = createSlice({
         state.status = Status.LOADING;
       })
       .addCase(addProducts.rejected, (state) => {
+        state.isRepeated = true;
         state.status = Status.ERROR;
       })
       .addCase(addProducts.fulfilled, (state) => {
+        state.isUploaded = true;
         state.status = Status.SUCCEEDED;
       })
       .addCase(deleteProducts.pending, (state) => {
@@ -85,6 +94,8 @@ export const productSlice = createSlice({
   },
 });
 
+export const selectIsUploaded = (state: RootState) => state.product.isUploaded;
+export const selectIsRepeated = (state: RootState) => state.product.isRepeated;
 export const selectStatus = (state: RootState) => state.product.status;
 export const selectFilter = (state: RootState) => state.product.filter;
 export const selectAllProducts = (state: RootState) => {
@@ -96,6 +107,6 @@ export const selectAllProducts = (state: RootState) => {
   });
 };
 
-export const { sortByColumn, setFilter } = productSlice.actions;
+export const { sortByColumn, setFilter, cancelUploaded } = productSlice.actions;
 
 export default productSlice.reducer;
