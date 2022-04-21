@@ -44,9 +44,16 @@ export function EditPopup({
     setOpen(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleCancel = () => {
     dispatch(cancelRepeated());
+    setOpen(false);
+  };
+
+  const handleClose = () => {
+    if (!isRepeated) {
+      cancelRepeated();
+      setOpen(false);
+    }
   };
 
   const handleSubmit = () => {
@@ -70,10 +77,8 @@ export function EditPopup({
           id: id,
         })
       );
+      handleClose();
       dispatch(getProducts());
-      if (isRepeated) {
-        handleClose();
-      }
     } else {
       setFailure(true);
     }
@@ -181,7 +186,7 @@ export function EditPopup({
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleCancel}>Cancel</Button>
           <Button onClick={handleSubmit}>Save</Button>
         </DialogActions>
       </Dialog>
