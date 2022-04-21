@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../util/store';
 import {
   addProducts,
@@ -24,8 +24,9 @@ export enum Status {
 
 export interface ProductsState {
   products: Product[];
-  filter: string;
   status: Status.LOADING | Status.ERROR | Status.IDLE | Status.SUCCEEDED;
+  filter: string;
+  sortColumn: keyof Product | undefined;
   isRepeated: boolean;
   isUploaded: boolean;
 }
@@ -42,6 +43,7 @@ export interface Product {
 export const initialState: ProductsState = {
   products: [],
   filter: '',
+  sortColumn: undefined,
   status: Status.IDLE,
   isRepeated: false,
   isUploaded: false,
@@ -51,11 +53,8 @@ export const productSlice = createSlice({
   name: TypePrefix.BASE,
   initialState: initialState,
   reducers: {
-    sortByColumn: (state, action: PayloadAction<keyof Product>) => {
-      const sortByKey = (key: keyof Product) => (a: Product, b: Product) =>
-        a[key] > b[key] ? 1 : -1;
-      const sorted = state.products.slice().sort(sortByKey(action.payload));
-      state.products = sorted;
+    sortByColumn: (state, action) => {
+      state.sortColumn = action.payload;
     },
     setFilter: (state, action) => {
       state.filter = action.payload;
@@ -102,7 +101,7 @@ export const productSlice = createSlice({
       .addCase(updateProducts.rejected, (state) => {
         state.status = Status.ERROR;
       })
-      .addCase(updateProducts.fulfilled, (state, action) => {
+      .addCase(updateProducts.fulfilled, (state) => {
         state.status = Status.SUCCEEDED;
       });
   },
@@ -113,13 +112,31 @@ export const selectIsRepeated = (state: RootState) => state.product.isRepeated;
 export const selectStatus = (state: RootState) => state.product.status;
 export const selectFilter = (state: RootState) => state.product.filter;
 export const selectAllProducts = (state: RootState) => {
-  return state.product.products.filter((product) => {
+  const sortByKey = (key: keyof Product) => (a: Product, b: Product) =>
+    a[key] > b[key] ? 1 : -1;
+  const filtered = state.product.products.filter((product) => {
     return product.name
       .trim()
       .toLowerCase()
       .includes(state.product.filter.toLowerCase());
   });
+
+  if (state.product.sortColumn === undefined) {
+    return filtered;
+  }
+
+  return filtered.sort(sortByKey(state.product.sortColumn));
 };
+// export const selectSortedProducts = (state: RootState) => {
+//   const sortByKey = (key: keyof Product) => (a: Product, b: Product) =>
+//     a[key] > b[key] ? 1 : -1;
+//   if (state.product.sortColumn === undefined) {
+//     return state.product.products;
+//   }
+//   return state.product.products
+//     .slice()
+//     .sort(sortByKey(state.product.sortColumn));
+// };
 
 export const { sortByColumn, setFilter, cancelUploaded } = productSlice.actions;
 

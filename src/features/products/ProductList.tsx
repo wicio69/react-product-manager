@@ -126,7 +126,7 @@ export function ProductList() {
                     hover
                     role="checkbox"
                     tabIndex={-1}
-                    key={product.quantity}
+                    key={product.id}
                   >
                     {columns.map((column) => {
                       var value = product[column.id].toString();
