@@ -17,7 +17,7 @@ export const getProducts = createAsyncThunk(TypePrefix.GET, async () => {
 export const addProducts = createAsyncThunk(
   TypePrefix.ADD,
   async ({ name, description, email, quantity, date }: Product) => {
-    await fetch(`API_BASE_URL`, {
+    await fetch(`${API_BASE_URL}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ export const addProducts = createAsyncThunk(
 export const updateProducts = createAsyncThunk(
   TypePrefix.UPDATE,
   async ({ name, description, email, quantity, date, id }: Product) => {
-    await fetch(`${API_BASE_URL}/${id}`, {
+    await fetch(`${API_BASE_URL}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -56,6 +56,7 @@ export const updateProducts = createAsyncThunk(
         date: date,
         description: description,
         email: email,
+        id: id,
       }),
     })
       .then((response) => {
