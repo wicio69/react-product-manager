@@ -74,7 +74,7 @@ export const updateProducts = createAsyncThunk(
 export const deleteProducts = createAsyncThunk(
   TypePrefix.DELETE,
   async (id: number) => {
-    await fetch(`${API_BASE_URL}/${id}`, {
+    fetch(`${API_BASE_URL}/${id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
