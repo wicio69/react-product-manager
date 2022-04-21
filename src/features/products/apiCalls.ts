@@ -45,7 +45,6 @@ export const addProducts = createAsyncThunk(
 export const updateProducts = createAsyncThunk(
   TypePrefix.UPDATE,
   async ({ name, description, email, quantity, date, id }: Product) => {
-    console.log(name, description, email, quantity, date);
     await fetch(`${API_BASE_URL}/${id}`, {
       method: 'PATCH',
       headers: {
