@@ -78,7 +78,7 @@ export function ProductList() {
 
   useEffect(() => {
     if (productsStatus !== Status.SUCCEEDED) dispatch(getProducts());
-  }, [products, dispatch]);
+  }, [products, dispatch, productsStatus]);
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -130,7 +130,7 @@ export function ProductList() {
                   >
                     {columns.map((column) => {
                       var value = product[column.id].toString();
-                      if (column.id == 'date') {
+                      if (column.id === 'date') {
                         value = value.substring(0, 10);
                       }
                       return (
