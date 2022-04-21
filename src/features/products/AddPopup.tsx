@@ -20,6 +20,7 @@ import {
   selectIsRepeated,
   selectIsUploaded,
   cancelUploaded,
+  cancelRepeated,
 } from './productSlice';
 
 export function AddPopup() {
@@ -69,6 +70,7 @@ export function AddPopup() {
   const handleClose = () => {
     setFailure(false);
     setOpen(false);
+    dispatch(cancelRepeated());
     dispatch(cancelUploaded());
   };
 
