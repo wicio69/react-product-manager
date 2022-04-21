@@ -1,6 +1,6 @@
 ## How do I run this thing? :)
 
-To run the project, please run:
+To run the project, please use the following commands:
 
 ## `git clone https://github.com/b-commits/react-recruitment-task.git`
 
