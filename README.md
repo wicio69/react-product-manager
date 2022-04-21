@@ -4,6 +4,8 @@ To run the project, please run:
 
 ## `git clone https://github.com/b-commits/react-recruitment-task.git`
 
+## `cd react-recruitment-task`
+
 ### `npm install`
 
 ### `npm start`
