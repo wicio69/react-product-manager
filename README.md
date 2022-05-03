@@ -11,5 +11,5 @@ To run the project, please use the following commands:
 ### `npm start`
 
 
-Alternatively, you can access the DigitalOcean Ubuntu machine which has the Docker image of the app hosted there:
+edit [Tue, May 3rd]: Alternatively, you can access the DigitalOcean Ubuntu machine which has the Docker image of the app hosted there:
 http://165.22.85.111:3000/
