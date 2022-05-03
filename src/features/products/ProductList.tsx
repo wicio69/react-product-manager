@@ -94,6 +94,7 @@ export function ProductList() {
         id="searchByProductName"
         label="Search products by name..."
         onChange={(e) => {
+          setPage(DEFAULT_PAGE);
           dispatch(setFilter(e.target.value));
         }}
         variant="standard"
