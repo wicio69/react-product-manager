@@ -131,7 +131,7 @@ export function ProductList() {
                     {columns.map((column) => {
                       var value = product[column.id].toString();
                       if (column.id === 'date') {
-                        value = value.substring(0, 10);
+                        value = new Date(value).toDateString();
                       }
                       return (
                         <TableCell key={column.id} align={column.align}>
