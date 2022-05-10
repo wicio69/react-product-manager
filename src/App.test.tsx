@@ -1,9 +1,4 @@
-import {
-  findByTestId,
-  getByLabelText,
-  render,
-  act,
-} from '@testing-library/react';
+import { render, act, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { store } from './util/store';
 import App from './App';
@@ -27,76 +22,62 @@ beforeEach(() => {
       dispatchEvent: () => false,
     }),
   });
+  render(
+    <Provider store={store}>
+      <App />
+    </Provider>
+  );
 });
 
 test('renders recruitment text', () => {
-  const { getByText } = render(
-    <Provider store={store}>
-      <App />
-    </Provider>
-  );
-  expect(getByText(/Bartek Gościcki - Recruitment Task/i)).toBeInTheDocument();
+  expect(
+    screen.getByText(/Bartek Gościcki - Recruitment Task/i)
+  ).toBeInTheDocument();
 });
 
 test('searchbar is initially empty', () => {
-  const { getByRole } = render(
-    <Provider store={store}>
-      <App />
-    </Provider>
-  );
-  const searchbar = getByRole('textbox') as HTMLInputElement;
+  const searchbar = screen.getByRole('textbox') as HTMLInputElement;
   expect(searchbar.value).toBe('');
 });
 
 test('should be able to type in product name', () => {
-  const { getByRole } = render(
-    <Provider store={store}>
-      <App />
-    </Provider>
-  );
-  const searchbar = getByRole('textbox') as HTMLInputElement;
+  const searchbar = screen.getByRole('textbox') as HTMLInputElement;
   userEvent.type(searchbar, 'test-product');
   expect(searchbar.value).toBe('test-product');
 });
 
 test('renders add product popup', () => {
-  const { getByText } = render(
-    <Provider store={store}>
-      <App />
-    </Provider>
-  );
-  const addButton = getByText(/Add a new product/i) as HTMLInputElement;
+  const addButton = screen.getByText(/Add a new product/i) as HTMLInputElement;
   userEvent.click(addButton);
-  expect(getByText(/In order to add a new product./i)).toBeInTheDocument();
+  expect(
+    screen.getByText(/In order to add a new product./i)
+  ).toBeInTheDocument();
 });
 
 test('should be able to add product', async () => {
-  const { getByRole, getByText, getByLabelText, findByRole } = render(
-    <Provider store={store}>
-      <App />
-    </Provider>
-  );
-  const addButton = getByText(/Add a new product/i) as HTMLInputElement;
+  const addButton = screen.getByText(/Add a new product/i) as HTMLInputElement;
 
   userEvent.click(addButton);
 
-  const saveButton = getByRole('button', { name: /save/i }) as HTMLInputElement;
+  const saveButton = screen.getByRole('button', {
+    name: /save/i,
+  }) as HTMLInputElement;
 
-  const nameField = getByRole('textbox', {
+  const nameField = screen.getByRole('textbox', {
     name: /name/i,
   }) as HTMLInputElement;
 
-  const emailField = getByRole('textbox', {
+  const emailField = screen.getByRole('textbox', {
     name: /email/i,
   }) as HTMLInputElement;
 
-  const descriptionField = getByRole('textbox', {
+  const descriptionField = screen.getByRole('textbox', {
     name: /description/i,
   }) as HTMLInputElement;
 
-  const quantityField = getByLabelText(/quantity/i) as HTMLInputElement;
+  const quantityField = screen.getByLabelText(/quantity/i) as HTMLInputElement;
 
-  const dateField = getByRole('textbox', {
+  const dateField = screen.getByRole('textbox', {
     name: /date/i,
   }) as HTMLInputElement;
 
@@ -114,5 +95,5 @@ test('should be able to add product', async () => {
 
   act(() => userEvent.click(saveButton));
 
-  expect(await findByRole('alert')).toBeInTheDocument();
+  expect(await screen.findByRole('alert')).toBeInTheDocument();
 });
