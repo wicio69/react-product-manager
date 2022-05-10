@@ -116,7 +116,7 @@ export function AddPopup() {
               autoFocus
               margin="dense"
               id="name"
-              label="Name"
+              label="Product Name"
               type="text"
               fullWidth
               error={Boolean(errorName?.name)}
@@ -164,7 +164,9 @@ export function AddPopup() {
                   onChange={(newValue) => {
                     setDate(newValue);
                   }}
-                  renderInput={(params) => <TextField fullWidth {...params} />}
+                  renderInput={(params) => (
+                    <TextField data-testid="picker" fullWidth {...params} />
+                  )}
                 />
               </div>
             </LocalizationProvider>
@@ -180,7 +182,11 @@ export function AddPopup() {
               </Alert>
             )}
             {isUploaded && (
-              <Alert css={formAlert} severity="success">
+              <Alert
+                css={formAlert}
+                severity="success"
+                data-testid="alertSuccessId"
+              >
                 The product has been added.
               </Alert>
             )}
