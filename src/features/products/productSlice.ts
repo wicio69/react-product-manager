@@ -1,4 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
+import {
+  ActionReducerMapBuilder,
+  createSlice,
+  PayloadAction,
+} from '@reduxjs/toolkit';
 import { RootState } from '../../util/store';
 import {
   addProducts,
@@ -6,6 +10,9 @@ import {
   getProducts,
   updateProducts,
 } from './apiCalls';
+
+// 1. Zdefiniuj Store i wrzuć do do providera w App.tsx
+// 2. Napisz slice'a
 
 export enum TypePrefix {
   BASE = 'products',
@@ -53,59 +60,65 @@ export const productSlice = createSlice({
   name: TypePrefix.BASE,
   initialState: initialState,
   reducers: {
-    sortByColumn: (state, action) => {
+    sortByColumn: (
+      state: ProductsState,
+      action: PayloadAction<keyof Product | undefined>
+    ) => {
       state.sortColumn = action.payload;
     },
-    setFilter: (state, action) => {
+    setFilter: (state: ProductsState, action: PayloadAction<string>) => {
       state.filter = action.payload;
     },
-    cancelUploaded: (state) => {
+    cancelUploaded: (state: ProductsState) => {
       state.isUploaded = false;
     },
-    cancelRepeated: (state) => {
+    cancelRepeated: (state: ProductsState) => {
       state.isRepeated = false;
     },
   },
-  extraReducers: (builder) => {
+  extraReducers: (builder: ActionReducerMapBuilder<ProductsState>) => {
     builder
-      .addCase(getProducts.pending, (state) => {
+      .addCase(getProducts.pending, (state: ProductsState) => {
         state.status = Status.LOADING;
       })
-      .addCase(getProducts.fulfilled, (state, action) => {
-        state.status = Status.SUCCEEDED;
-        state.products = action.payload;
-      })
-      .addCase(getProducts.rejected, (state) => {
+      .addCase(
+        getProducts.fulfilled,
+        (state: ProductsState, action: PayloadAction<Product[]>) => {
+          state.status = Status.SUCCEEDED;
+          state.products = action.payload;
+        }
+      )
+      .addCase(getProducts.rejected, (state: ProductsState) => {
         state.status = Status.ERROR;
       })
-      .addCase(addProducts.pending, (state) => {
+      .addCase(addProducts.pending, (state: ProductsState) => {
         state.status = Status.LOADING;
       })
-      .addCase(addProducts.rejected, (state) => {
+      .addCase(addProducts.rejected, (state: ProductsState) => {
         state.isRepeated = true;
         state.status = Status.ERROR;
       })
-      .addCase(addProducts.fulfilled, (state) => {
+      .addCase(addProducts.fulfilled, (state: ProductsState) => {
         state.isUploaded = true;
         state.status = Status.SUCCEEDED;
       })
-      .addCase(deleteProducts.pending, (state) => {
+      .addCase(deleteProducts.pending, (state: ProductsState) => {
         state.status = Status.LOADING;
       })
-      .addCase(deleteProducts.rejected, (state) => {
+      .addCase(deleteProducts.rejected, (state: ProductsState) => {
         state.status = Status.ERROR;
       })
-      .addCase(deleteProducts.fulfilled, (state) => {
+      .addCase(deleteProducts.fulfilled, (state: ProductsState) => {
         state.status = Status.SUCCEEDED;
       })
-      .addCase(updateProducts.pending, (state) => {
+      .addCase(updateProducts.pending, (state: ProductsState) => {
         state.status = Status.LOADING;
       })
-      .addCase(updateProducts.rejected, (state) => {
+      .addCase(updateProducts.rejected, (state: ProductsState) => {
         state.isRepeated = true;
         state.status = Status.ERROR;
       })
-      .addCase(updateProducts.fulfilled, (state) => {
+      .addCase(updateProducts.fulfilled, (state: ProductsState) => {
         state.status = Status.SUCCEEDED;
       });
   },

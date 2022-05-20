@@ -1,4 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { useState } from 'react';
 import { API_BASE_URL } from '../../util/config';
 import { Product } from './productSlice';
 
@@ -92,3 +93,68 @@ export const deleteProducts = createAsyncThunk(
       });
   }
 );
+
+enum HTTP_METHODS {
+  POST = 'POST',
+  GET = 'GET',
+  DELETE = 'DELETE',
+  UPDATE = 'UPDATE',
+}
+
+interface FetchOptions {
+  method: string;
+  headers: {};
+  body?: {};
+}
+
+const theThng { thing } = { thing: 'siema'}
+
+const obj = {
+  firstName: 'fname',
+  lastName: 'lname',
+  age: 21,
+  id: 1,
+}
+let { id } = obj;
+
+dto = { }
+
+/**
+ *
+ * @param url api URL
+ * @param method HTTP method used in the request
+ * @param productData Product object (optional)
+ */
+function useFetch(url: string, method: HTTP_METHODS, productData?: Product) {
+  const [data, setData] = useState<any>();
+  const [error, setError] = useState<string>();
+  let dto;
+
+  switch (method) {
+    case (HTTP_METHODS.GET || HTTP_METHODS.DELETE): 
+      dto = { id: productData!.id };
+      break;
+    case HTTP_METHODS.POST:
+      dto = { name: productData!.name, quantity: productData!.quantity, description: productData!.description, email: productData!.email};
+      break;
+    case HTTP_METHODS.UPDATE:
+      dto = productData;
+      break;
+  }
+
+  const endpoint: string =
+    method === HTTP_METHODS.GET
+      ? API_BASE_URL
+      : `${API_BASE_URL}/${productData?.id}`;
+  const fetchOptions: FetchOptions = {
+    method: method,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: dto
+  };
+
+  createAsyncThunk(TypePrefix.ADD, async (productData: Product) => {
+    fetch(endpoint);
+  });
+}

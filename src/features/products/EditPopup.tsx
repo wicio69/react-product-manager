@@ -9,8 +9,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 import EditIcon from '@mui/icons-material/Edit';
 import { useState } from 'react';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import { REGEX_EMAIL } from '../../util/regex';
-import { MAX_NAME_LENGTH } from '../../util/config';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { Alert } from '@mui/material';
@@ -90,7 +88,7 @@ export function EditPopup({
     } = event;
     setErrorMail({ email: '' });
     setEmail(value);
-    if (!value.match(REGEX_EMAIL)) {
+    if (!value.match('bac')) {
       setErrorMail({ email: 'Please provide a correct e-mail' });
     }
   };
@@ -101,7 +99,7 @@ export function EditPopup({
     } = event;
     setErrorName({ name: '' });
     setName(value);
-    if (value.length < MAX_NAME_LENGTH) {
+    if (value.length < 5) {
       setErrorName({ name: 'Name must be at least five characters long' });
     }
   };

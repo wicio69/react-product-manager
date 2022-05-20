@@ -19,17 +19,17 @@ interface PopupProps {
 export function DeletePopup({ id, productName }: PopupProps) {
   const dispatch = useAppDispatch();
 
-  const handleDelete = () => {
-    dispatch(deleteProducts(id));
-  };
-
   const [open, setOpen] = useState<boolean>(false);
 
-  const handleClickOpen = () => {
+  const handleClickOpen: () => void = () => {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handleDelete: () => void = () => {
+    dispatch(deleteProducts(id));
+  };
+
+  const handleClose: () => void = () => {
     setOpen(false);
   };
 

@@ -6,36 +6,57 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { BASE_ID } from '../../util/config';
 import { useState } from 'react';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { useAppDispatch, useAppSelector } from '../../util/hooks';
+import {
+  useAppDispatch,
+  useAppSelector,
+  useFieldWithValidation,
+} from '../../util/hooks';
 import { addProducts } from './apiCalls';
 import { Alert } from '@mui/material';
 import { datePicker, addButton, formAlert } from './Product.module.style';
-import { MAX_NAME_LENGTH, BASE_ID } from '../../util/config';
-import { REGEX_EMAIL } from '../../util/regex';
 import {
   selectIsRepeated,
   selectIsUploaded,
   cancelUploaded,
   cancelRepeated,
 } from './productSlice';
+import { isEmpty } from 'lodash';
+import { ValidationConsts } from '../../util/config';
 
 export function AddPopup() {
-  const [open, setOpen] = useState<boolean>(false);
-  const [errorMail, setErrorMail] = useState<{ email: string }>();
-  const [errorName, setErrorName] = useState<{ name: string }>();
-  const [date, setDate] = useState<Date | null>(null);
-  const [email, setEmail] = useState<string>();
-  const [quantity, setQuantity] = useState<string>();
-  const [description, setDescription] = useState<string>();
-  const [name, setName] = useState<string>();
-  const [failure, setFailure] = useState<boolean>(false);
   const dispatch = useAppDispatch();
+  const [open, setOpen] = useState<boolean>(false);
+  const [date, setDate] = useState<Date | null>(null);
+
+  const [failure, setFailure] = useState<boolean>(false);
   const isRepeated = useAppSelector(selectIsRepeated);
   const isUploaded = useAppSelector(selectIsUploaded);
+
+  const [quantity, setQuantity] = useState<string>();
+
+  const [email, emailError, validateEmail] = useFieldWithValidation(
+    (email: string) => {
+      return email.match(ValidationConsts.REGEX_EMAIL);
+    },
+    ValidationConsts.EMAIL_VALIDATION
+  );
+
+  const [name, nameError, validateName] = useFieldWithValidation(
+    (name: string) => {
+      return name.length < ValidationConsts.MAX_NAME_LENGTH;
+    },
+    ValidationConsts.NAME_VALIDATION
+  );
+
+  const [description, descriptionError, validateDescription] =
+    useFieldWithValidation((description: string) => {
+      return description.length < ValidationConsts.MAX_DESC_LENGTH;
+    }, ValidationConsts.DESC_VALIDATION);
 
   const handleSubmit = () => {
     if (
@@ -44,8 +65,8 @@ export function AddPopup() {
       description &&
       quantity &&
       email &&
-      !errorMail?.email &&
-      !errorName?.name
+      isEmpty(emailError) &&
+      isEmpty(nameError)
     ) {
       setFailure(false);
       dispatch(
@@ -63,48 +84,17 @@ export function AddPopup() {
     }
   };
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setFailure(false);
-    setOpen(false);
-    dispatch(cancelRepeated());
-    dispatch(cancelUploaded());
-  };
-
-  const validateEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const {
-      target: { value },
-    } = event;
-    setFailure(false);
-    setErrorMail({ email: '' });
-    setEmail(value);
-    if (!value.match(REGEX_EMAIL)) {
-      setErrorMail({ email: 'Please provide a correct e-mail' });
-    }
-  };
-
-  const validateName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const {
-      target: { value },
-    } = event;
-    setFailure(false);
-    setErrorName({ name: '' });
-    setName(value);
-    if (value.length < MAX_NAME_LENGTH) {
-      setErrorName({ name: 'Name must be at least five characters long' });
-    }
-  };
-
   return (
     <div>
       <form>
-        <Button variant="contained" onClick={handleClickOpen} css={addButton}>
+        <Button
+          variant="contained"
+          onClick={() => setOpen(true)}
+          css={addButton}
+        >
           Add a new product
         </Button>
-        <Dialog open={open} onClose={handleClose}>
+        <Dialog open={open} onClose={() => setOpen(false)}>
           <DialogTitle>Add a new product</DialogTitle>
           <DialogContent>
             <DialogContentText>
@@ -119,8 +109,8 @@ export function AddPopup() {
               label="Product Name"
               type="text"
               fullWidth
-              error={Boolean(errorName?.name)}
-              helperText={errorName?.name}
+              error={!isEmpty(nameError)}
+              helperText={nameError}
               variant="standard"
               required
             />
@@ -131,18 +121,19 @@ export function AddPopup() {
               label="Email Address"
               type="email"
               fullWidth
-              error={Boolean(errorMail?.email)}
-              helperText={errorMail?.email}
+              error={!isEmpty(emailError)}
+              helperText={emailError}
               variant="standard"
               required
             />
             <TextField
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={validateDescription}
               margin="dense"
               id="description"
               label="Description"
               type="email"
               fullWidth
+              error={!isEmpty(descriptionError)}
               variant="standard"
               required
             />
@@ -170,12 +161,12 @@ export function AddPopup() {
                 />
               </div>
             </LocalizationProvider>
-            {failure && (
+            {/* {failure && (
               <Alert css={formAlert} severity="error">
                 All fields are required. Name must be at least five characters
                 long. Email address must have a correct format.
               </Alert>
-            )}
+            )} */}
             {isRepeated && (
               <Alert css={formAlert} severity="error">
                 This name is already taken.
@@ -192,13 +183,20 @@ export function AddPopup() {
             )}
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
+            <Button onClick={() => setOpen(false)}>Cancel</Button>
             {isUploaded ? (
-              <Button type="submit" disabled onClick={handleSubmit}>
+              <Button
+                type="submit"
+                disabled
+                onClick={() => console.log('tu byl handle submit')}
+              >
                 Save
               </Button>
             ) : (
-              <Button type="submit" onClick={handleSubmit}>
+              <Button
+                type="submit"
+                onClick={() => console.log('tu byl handle submit')}
+              >
                 Save
               </Button>
             )}
