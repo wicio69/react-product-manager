@@ -107,17 +107,13 @@ interface FetchOptions {
   body?: {};
 }
 
-const theThng { thing } = { thing: 'siema'}
-
 const obj = {
   firstName: 'fname',
   lastName: 'lname',
   age: 21,
   id: 1,
-}
+};
 let { id } = obj;
-
-dto = { }
 
 /**
  *
@@ -131,11 +127,16 @@ function useFetch(url: string, method: HTTP_METHODS, productData?: Product) {
   let dto;
 
   switch (method) {
-    case (HTTP_METHODS.GET || HTTP_METHODS.DELETE): 
+    case HTTP_METHODS.GET || HTTP_METHODS.DELETE:
       dto = { id: productData!.id };
       break;
     case HTTP_METHODS.POST:
-      dto = { name: productData!.name, quantity: productData!.quantity, description: productData!.description, email: productData!.email};
+      dto = {
+        name: productData!.name,
+        quantity: productData!.quantity,
+        description: productData!.description,
+        email: productData!.email,
+      };
       break;
     case HTTP_METHODS.UPDATE:
       dto = productData;
@@ -151,7 +152,7 @@ function useFetch(url: string, method: HTTP_METHODS, productData?: Product) {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: dto
+    body: dto,
   };
 
   createAsyncThunk(TypePrefix.ADD, async (productData: Product) => {

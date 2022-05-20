@@ -1,5 +1,6 @@
 import './App.css';
 import { ProductList } from './features/products/ProductList';
+import { ParentComponent } from './features/tmp/TestPropsComp';
 import { Header } from './components/Header';
 
 function App() {
@@ -7,7 +8,8 @@ function App() {
     <div className="App">
       <header className="App-header">
         <Header />
-        <ProductList />
+        <ParentComponent />
+        {/* <ProductList /> */}
         {/* <TmpComponentUseMemo /> */}
         {/* <UseMemoExample /> */}
         {/* <UseRefExample /> */}
