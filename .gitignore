@@ -8,6 +8,9 @@
 # testing
 /coverage
 
+# tests
+/src/features/tmp
+
 # production
 /build
 
