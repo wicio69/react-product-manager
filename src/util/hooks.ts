@@ -16,7 +16,7 @@ export const useFieldWithValidation = (
   errorMessage: string
 ): any => {
   const [field, setField] = useState<string>();
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState<string>();
 
   const validateField = (event: React.ChangeEvent<HTMLInputElement>) => {
     const {
@@ -28,9 +28,4 @@ export const useFieldWithValidation = (
     }
   };
   return [field, error, validateField];
-};
-
-export const useFetch = () => {
-  const [error, setError] = useState<string>();
-  const [data, setData] = useState<any>();
 };

@@ -29,5 +29,5 @@ export function Parent(): JSX.Element {
 }
 
 export function Obczaj(people: APIResponse): JSX.Element {
-  return <div></div>;
+  return <div>{people}</div>;
 }

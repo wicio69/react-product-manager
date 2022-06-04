@@ -10,11 +10,11 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../util/hooks';
-import { DeletePopup } from './DeletePopup';
-import { EditPopup } from './EditPopup';
-import { AddPopup } from './AddPopup';
+import { DeletePopup } from './DeleteProduct';
+import { EditPopup } from './EditProduct';
+import { AddPopup } from './AddProduct';
 import { tableWrapper, searchBar, tableHeader } from './Product.module.style';
-import { getProducts } from './apiCalls';
+import { getProducts } from '../thunks/apiCalls';
 import {
   selectAllProducts,
   setFilter,

@@ -8,7 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useState } from 'react';
 import { useAppDispatch } from '../../util/hooks';
-import { deleteProducts } from './apiCalls';
+import { deleteProducts } from '../thunks/apiCalls';
 import { deleteIcon } from './Product.module.style';
 
 interface PopupProps {
@@ -34,7 +34,7 @@ export function DeletePopup({ id, productName }: PopupProps) {
   };
 
   return (
-    <div>
+    <>
       <DeleteIcon onClick={handleClickOpen} css={deleteIcon} />
       <Dialog
         open={open}
@@ -54,6 +54,6 @@ export function DeletePopup({ id, productName }: PopupProps) {
           <Button onClick={handleDelete}>Delete</Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </>
   );
 }

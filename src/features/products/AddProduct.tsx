@@ -11,13 +11,13 @@ import { useState } from 'react';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { Alert } from '@mui/material';
 import {
   useAppDispatch,
   useAppSelector,
   useFieldWithValidation,
 } from '../../util/hooks';
-import { addProducts } from './apiCalls';
-import { Alert } from '@mui/material';
+import { addProducts } from '../thunks/apiCalls';
 import { datePicker, addButton, formAlert } from './Product.module.style';
 import {
   selectIsRepeated,
@@ -85,7 +85,7 @@ export function AddPopup() {
   };
 
   return (
-    <div>
+    <>
       <form>
         <Button
           variant="contained"
@@ -203,6 +203,6 @@ export function AddPopup() {
           </DialogActions>
         </Dialog>
       </form>
-    </div>
+    </>
   );
 }

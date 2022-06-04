@@ -16,7 +16,7 @@ import { datePicker } from './Product.module.style';
 import { cancelRepeated, Product, selectIsRepeated } from './productSlice';
 import { useAppDispatch, useAppSelector } from '../../util/hooks';
 import { editIcon, formAlert } from './Product.module.style';
-import { updateProducts, getProducts } from './apiCalls';
+import { updateProducts, getProducts } from '../thunks/apiCalls';
 
 export function EditPopup({
   id,
@@ -105,7 +105,7 @@ export function EditPopup({
   };
 
   return (
-    <div>
+    <>
       <EditIcon onClick={handleClickOpen} css={editIcon} />
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Edit product details</DialogTitle>
@@ -188,6 +188,6 @@ export function EditPopup({
           <Button onClick={handleSubmit}>Save</Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </>
   );
 }

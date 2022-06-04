@@ -1,0 +1,4 @@
+DB_URL=mongodb+srv://admin:<password>@webapp.y2yg8ui.mongodb.net/?retryWrites=true&w=majority 
+DB_USER=admin
+DB_PASSWORD=M6CrCSIjtTXVrsOh
+PORT=7070

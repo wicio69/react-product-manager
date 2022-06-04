@@ -9,10 +9,7 @@ import {
   deleteProducts,
   getProducts,
   updateProducts,
-} from './apiCalls';
-
-// 1. Zdefiniuj Store i wrzuć do do providera w App.tsx
-// 2. Napisz slice'a
+} from '../thunks/apiCalls';
 
 export enum TypePrefix {
   BASE = 'products',

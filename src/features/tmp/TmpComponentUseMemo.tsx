@@ -44,7 +44,7 @@ export function TmpComponentUseMemo() {
   );
 
   // Funkcja, która zajmuje długo:
-  const heavyFoo = () => {
+  const heavyFoo = (): string => {
     setTimeout(() => console.log('Coś długo robię asynchronicznie...'), 15000);
     return color.concat('-rerendered');
   };
