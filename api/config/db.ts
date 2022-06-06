@@ -1,12 +1,11 @@
 import { config } from 'dotenv';
 import { connect } from 'mongoose';
 
-// Loads and prepares .env variables:
 config();
 
-const MONGO_DB_URL = process.env.DB_URL || 'development';
+const MONGO_DB_URL: string = process.env.DB_URL || 'development';
 
-export const connectDatabase = () =>
+export const connectDatabase: () => void = () =>
   connect(MONGO_DB_URL).catch((error: Error) => {
     console.log(error);
   });
