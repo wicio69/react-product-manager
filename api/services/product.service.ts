@@ -1,5 +1,5 @@
 import { ProductModel } from '../models/product.model';
 
-export const getProducts = async () => {
+export const queryAllProducts = async () => {
   return ProductModel.find();
 };
