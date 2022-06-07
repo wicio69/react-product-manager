@@ -34,3 +34,5 @@ Dockerfile
 .vscode
 
 todo
+debug.log
+httpRequest.log
