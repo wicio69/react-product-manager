@@ -1,10 +1,16 @@
 import { Product } from '../../src/features/products/productSlice';
 import { ProductModel } from '../models/product.model';
 
-export const queryAllProducts = async () => {
-  return ProductModel.find();
+export const selectAllProducts = async () => {
+  return await ProductModel.find();
 };
 
-export const addProduct = async (product: Product) => {
-  return product.save();
+export const insertProduct = async (product: Product) => {
+  await new ProductModel(product).save();
+};
+
+export const deleteProductById = async (productId: number) => {
+  return await ProductModel.deleteOne((product: Product) => {
+    return product.id === productId;
+  });
 };

@@ -1,4 +1,3 @@
-import './App.css';
 import { ProductList } from './features/products/ProductList';
 import { ParentComponent } from './features/tmp/TestPropsComp';
 import { Header } from './components/Header';

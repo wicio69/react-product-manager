@@ -6,3 +6,10 @@ export const debugLogger: Logger = createLogger({
     new transports.Console(),
   ],
 });
+
+export const requestLogger: Logger = createLogger({
+  transports: [
+    new transports.File({ filename: 'httpRequest.log' }),
+    new transports.Console(),
+  ],
+});

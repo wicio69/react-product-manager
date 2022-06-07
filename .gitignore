@@ -5,6 +5,9 @@
 /.pnp
 .pnp.js
 
+# environment vars
+.env
+
 # testing
 /coverage
 
@@ -27,3 +30,7 @@ yarn-error.log*
 
 Dockerfile
 .dockerignore
+.env
+.vscode
+
+todo

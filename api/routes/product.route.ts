@@ -1,5 +1,9 @@
 import express, { Router } from 'express';
-import { getAllProducts } from '../controllers/product.controller';
+import {
+  deleteProduct,
+  getAllProducts,
+  postProduct,
+} from '../controllers/product.controller';
 
 export const router: Router = express.Router();
 
@@ -9,3 +13,24 @@ export const router: Router = express.Router();
  * @access Public
  */
 router.get('/', getAllProducts);
+
+/**
+ * @route POST /api/products
+ * @description Adds a product
+ * @access Public (for now)
+ */
+router.post('/', postProduct);
+
+/**
+ * @route DELETE /api/products/:productId
+ * @description Deletes a product
+ * @access Public
+ */
+router.put('/', deleteProduct);
+
+// /**
+//  * @route PUT /api/products/:productId
+//  * @description Updates a product
+//  * @access Public
+//  */
+// router.put('/', null);

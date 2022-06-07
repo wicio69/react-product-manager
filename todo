@@ -1,3 +1,5 @@
 1. Log errors to files with Winston.
 2. Structure out MVCS.
 3. Swagger API docs.
+4. Log HTTP requests.
+5. API Tests.
